@@ -1,0 +1,49 @@
+Rank,Name,Beyer Designation,Visual Magnitude,Right Ascension (hh:mm:ss),Deklination (deg:arcmin:arcsec)
+1,Sirius,9 Alp CMa,-1.44,06h:45m:08.9s,-16deg:42am:58as
+2,Canopus,Alp Car,-0.62,06h:23m:57.1s,-52deg:41am:45as
+3,Rigil Kent,Alp Cen,-0.28,14h:39m:35.9s,-60deg:50am:07as
+4,Arcturus,16 Alp Boo,-0.05,14h:15m:39.7s,19deg:10am:57as
+5,Vega,3 Alp Lyr,0.03,18h:36m:56.3s,38deg:47am:01as
+6,Capella,13 Alp Aur,0.08,05h:16m:41.4s,45deg:59am:53as
+7,Rigel,19 Bet Ori,0.18,05h:14m:32.3s,-08deg:12am:06as
+8,Procyon,10 Alp CMi,0.40,07h:39m:18.1s,05deg:13am:30as
+9,Achernar,Alp Eri,0.45,01h:37m:42.9s,-57deg:14am:12as
+10,Betelgeuse,58 Alp Ori,0.45,05h:55m:10.3s,07deg:24am:25as
+11, ,Bet Cen,0.61,14h:03m:49.4s,-60deg:22am:23as
+12,Altair,53 Alp Aql,0.76,19h:50m:47.0s,08deg:52am:06as
+13,Acrux,Alp Cru,0.77,12h:26m:35.9s,-63deg:05am:57as
+14,Aldebaran,87 Alp Tau,0.87,04h:35m:55.2s,16deg:30am:33as
+15,Spica,67 Alp Vir,0.98,13h:25m:11.6s,-11deg:09am:41as
+16,Antares,21 Alp Sco,1.06,16h:29m:24.4s,-26deg:25am:55as
+17,Pollux,78 Bet Gem,1.16,07h:45m:18.9s,28deg:01am:34as
+18,Fomalhaut,24 Alp PsA,1.17,22h:57m:39.1s,-29deg:37am:20as
+19, ,Bet Cru,1.25,12h:47m:43.2s,-59deg:41am:19as
+20,Deneb,50 Alp Cyg,1.25,20h:41m:25.9s,45deg:16am:49as
+21,Regulus,32 Alp Leo,1.36,10h:08m:22.3s,11deg:58am:02as
+22,Adhara,21 Eps CMa,1.50,06h:58m:37.5s,-28deg:58am:20as
+23,Castor,66 Alp Gem,1.58,07h:34m:36.0s,31deg:53am:18as
+24,Gacrux,Gam Cru,1.59,12h:31m:09.9s,-57deg:06am:48as
+25,Shaula,35 Lam Sco,1.62,17h:33m:36.5s,-37deg:06am:14as
+26,Bellatrix,24 Gam Ori,1.64,05h:25m:07.9s,06deg:20am:59as
+27,Alnath,112 Bet Tau,1.65,05h:26m:17.5s,28deg:36am:27as
+28,Miaplacidus,Bet Car,1.67,09h:13m:12.0s,-69deg:43am:02as
+29,Alnilam,46 Eps Ori,1.69,05h:36m:12.8s,-01deg:12am:07as
+30,Alnair,Alp Gru,1.73,22h:08m:14.0s,-46deg:57am:40as
+31,Alnitak,50 Zet Ori,1.74,05h:40m:45.5s,-01deg:56am:34as
+32, ,Gam2 Vel,1.75,08h:09m:32.0s,-47deg:20am:12as
+33,Alioth,77 Eps UMa,1.76,12h:54m:01.7s,55deg:57am:35as
+34,Mirphak,33 Alp Per,1.79,03h:24m:19.4s,49deg:51am:40as
+35,Kaus Australis,20 Eps Sgr,1.79,18h:24m:10.3s,-34deg:23am:05as
+36,Dubhe,50 Alp UMa,1.81,11h:03m:43.7s,61deg:45am:03as
+37, ,25 Del CMa,1.83,07h:08m:23.5s,-26deg:23am:36as
+38,Alkaid,85 Eta UMa,1.85,13h:47m:32.4s,49deg:18am:48as
+39,Avior,Eps Car,1.86,08h:22m:30.8s,-59deg:30am:35as
+40, ,The Sco,1.86,17h:37m:19.2s,-42deg:59am:52as
+41,Menkalinan,34 Bet Aur,1.90,05h:59m:31.7s,44deg:56am:51as
+42,Atria,Alp TrA,1.91,16h:48m:39.9s,-69deg:01am:40as
+43,Alhena,24 Gam Gem,1.93,06h:37m:42.7s,16deg:23am:57as
+44, ,Del Vel,1.93,08h:44m:42.2s,-54deg:42am:30as
+45,Peacock,Alp Pav,1.94,20h:25m:38.9s,-56deg:44am:06as
+46,Polaris,1 Alp UMi,1.97,02h:31m:48.7s,89deg:15am:51as
+47,Mirzam,2 Bet CMa,1.98,06h:22m:42.0s,-17deg:57am:21as
+48,Alphard,30 Alp Hya,1.99,09h:27m:35.2s,-08deg:39am:31as
