@@ -1,39 +1,25 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
 """
-PyCelestialObjects
+Dobby_celestial_mechanics.py
 
-Version 0.1, 2023-10-21
+Part of Dobby, a tool to turn a Dobsonian telescope into a go-to platform
 
-Dr. Andreas Janzen, janzen@gmx.net, 2023-10-23
+Provides data structures and methods for calculations of celestial mechanics,
+e.g. conversion from right ascension and declination to altitude and azimuth
 
-Converts positions of celestial objects from right ascension (RA, measured in
-hours and minutes) and declination (DEC, measured in degrees and minutes) to
-altitude (Alt, measured in degrees) and azimuth (Az, measured in degrees).
-
-Positions of celestial objects are taken from "NGC 2000.0, The Complete New
-General Catalogue and Index Catalogue of Nebulae and Star Clusters" by
-J.L.E. Dreyer (from https://heasarc.gsfc.nasa.gov/W3Browse/all/ngc2000.html)
+Author: Dr. Andreas Janzen, janzen@gmx.net
+Date: 2023-11-12
 """
 
 
-import collections
-import csv
 import datetime
-import itertools
 import math
-import sys
 
 
-Star = collections.namedtuple("Star", "Rank, Name, Beyer, Mag_v, RA, DEC, Alt, Az")
 TimePlace = collections.namedtuple("TimePlace",
         "Year, Month, Day, Hours, Minutes, Seconds, Latitude, Longitude")
 
-
-# Input file contains 48 brightest stars (according to Hipparcos project) with
-# positions manually taken from Dreyer's "NGC 2000.0" catalogue
-INPUT_FILE = "48_Brightest_Stars_Hipparcos.csv"
-DSO_FILE = "ngc2000_final.csv"
 
 # Use Bad Camberg, Germany, as preset for location site
 LAT = 50.314 # 50.314°N
@@ -63,26 +49,6 @@ DEFAULT = TimePlace(
     LONG,
 )
 
-
-# Altitude angle below which stars are considered unsuitable for alignment,
-# e.g. due to limited visibility (houses, trees, etc.) or atmospheric seeing
-LOW_ANGLE = 20.0
-
-
-# Menu entries
-MENUS = {
-        "MAIN": """Align mount
-                   Navigate to object
-                   Show object information
-                   Set time and place
-                   Exit program""",
-
-        "STAR ALIGNMENT": """Print bright stars
-                             1-star alignment
-                             2-star alignment
-                             3-star alignment
-                             Back""",
-}
 
 ###############################################################################
 # Helper functions
@@ -266,10 +232,6 @@ def local_siderial_time(days_from_J2000, longitude, time):
     return LST % 360.0
 
 
-###############################################################################
-# Data handling
-###############################################################################
-
 def hour_angle(RA, LST):
     """ Returns the hour angle of an object with right ascension RA at
     local siderial time LST. HA and RA are measured in degrees.
@@ -298,110 +260,6 @@ def RA_DEC_to_ALT_AZ(raD, decD, haD, latD):
         az = 360 - rad2deg(a)
 
     return alt, az
-
-
-def load_bright_stars(fname = INPUT_FILE):
-    """ Loads input file with bright star positions, converts (RA, DEC) positions
-    to (Alt, Az), and returns list with all stars stored as Star namedtuples
-    """
-    all_stars = list()
-
-    days_J2000 = days_from_J2000(YEAR, MONTH, DAY, HOURS + UT_COR, MINUTES, SECONDS)
-    lst = local_siderial_time(days_J2000, LONG,
-                              HMS_to_decimal_time(HOURS + UT_COR, MINUTES, SECONDS))
-
-    with open(fname) as csvfile:
-        reader = csv.reader(csvfile, delimiter=",")
-        for line in reader:
-            if line[0] == "Rank":
-                continue
-            else:
-                rank = int(line[0])
-                name = line[1]
-                beyer = line[2]
-                mag = float(line[3])
-                ra = RAStr2RA(line[4])
-                dec = DECStr2DEC(line[5])
-                ha = hour_angle(ra, lst)
-                Alt, Az = RA_DEC_to_ALT_AZ(ra, dec, ha, LAT)
-                current = Star(rank, name, beyer, mag, ra, dec, Alt, Az)
-                all_stars.append(current)
-
-    return all_stars
-
-
-def best_stars(stars):
-    """ Prints a list of star combinations sorted by the size of the planar
-    triangle that the stars span on the sky.
-    """
-    NUMBER = 15
-    triples = dict()
-
-    for i,j,k in itertools.combinations(range(len(stars)), 3):
-        triples[(i,j,k)] = area(stars[i], stars[j], stars[k])
-
-    triples_sorted = sorted(triples.items(), key = lambda tr:tr[1], reverse = True)
-
-    heading = f"{NUMBER} best suited triples out of {len(triples_sorted)} combinations:"
-    print("\n" + heading)
-    print()
-
-    index = 1
-    for triple in triples_sorted:
-        txt = f"{stars[triple[0][0]].Name:<15} {stars[triple[0][1]].Name:<15}" + \
-              f"{stars[triple[0][2]].Name:<15} area: {triple[1]:>5.3f}"
-        print(f" {index:>2d}. ", end="")
-        print(txt)
-
-        index += 1
-        if index > NUMBER:
-            break
-
-    return None
-
-
-###############################################################################
-# User Interaction
-###############################################################################
-
-def print_welcome_message():
-    """ Prints welcome screen
-    """
-    msg = """
-    ###########################################################################
-    ###                                                                     ###
-    ###              PyCelestialObjects V0.1                                ###
-    ###                                                                     ###
-    ###              Dr. Andreas Janzen, November 2023                      ###
-    ###                                                                     ###
-    ###########################################################################
-    """
-    print(msg)
-
-    return None
-
-
-def print_menu(menu):
-    """ Prints a menu from global variable MENUS
-    """
-    heading = f"{menu} MENU"
-    print("\n\n" + heading)
-    print("="* len(heading) + "\n")
-
-    entries = [entry.strip() for entry in MENUS[menu].split("\n")]
-    for k, v in enumerate(entries, 1):
-        print(f"  ({k}) {v}")
-    print()
-
-    while True:
-        try:
-            choice = int(input("> "))
-            if 1 <= choice <= len(entries):
-                break
-        except:
-            pass
-
-    return choice
 
 
 def set_time_and_place():
@@ -467,92 +325,4 @@ def set_time_and_place():
             print("### Incorrect data. Please try again!")
 
     return TimePlace(yi, mi, di, h + ut_cor, m, s, latitude, longitude)
-
-
-def get_suitable_stars():
-    """ Returns a list of currently visible bright stars. Stars that are low in
-    the sky, i.e. below 20° altitude, are not included, even if they are
-    visible from the observation site.
-    """
-    all_stars = load_bright_stars(INPUT_FILE)
-    suitable = list()
-
-    for star in all_stars:
-        if star.Alt >= LOW_ANGLE:
-            suitable.append(star)
-
-    sorted_stars = sorted(suitable, key = lambda s:s.Alt, reverse = True)
-
-    return sorted_stars # suitable
-
-
-def print_star_list(stars, description):
-    """ Print a list of stars with their full information set
-    """
-    heading = f"\n\nList of {description} ({len(stars)}):"
-    print(heading)
-    print("=" * (len(heading)-2))
-
-    print(f"\nDate: {YEAR:4d}-{MONTH:02d}-{DAY:02d}, local time:",
-          f"{HOURS:02d}:{MINUTES:02d}:{SECONDS:02d} (UT+{-UT_COR}h),",
-          f"position: {LAT:>5.2f}°", end="")
-    if LAT >= 0.0:
-        print("N", end="")
-    else:
-        print("S", end="")
-    print(f" / {LONG:>5.2f}°", end="")
-    if LONG >= 0.0:
-        print("E\n")
-    else:
-        print("W\n")
-
-    for star in stars:
-        if star.Alt <= 0.0:
-            continue
-        elif star.Alt < LOW_ANGLE:
-            print(" (", end="")
-            low += 1
-        else:
-            print("  ", end="")
-        print(f"{star.Name:<15} {star.Beyer:>11}     {star.Mag_v:5.2f} mag    ",
-              f"Az = {star.Az:>6.2f}° / Alt = {star.Alt:>5.2f}°", end="")
-        if star.Alt < 20.0:
-            print(")")
-        else:
-            print()
-
-    return None
-
-
-###############################################################################
-# Main Program
-###############################################################################
-
-
-def main():
-    """ PyCelestialObjects main function
-    """
-    print_welcome_message()
-
-    while True:
-        choice = print_menu("MAIN")
-        if choice == 1: # Align mount
-            suitable = get_suitable_stars()
-            print_star_list(suitable, "suitable stars")
-            best_stars(suitable)
-        elif choice == 2: # Navigate to object -- requires hardware programming
-            print("\n### Function is not implemented yet.")
-        elif choice == 3: # Show object information
-            print("\n### Function is not implemented yet.")
-        elif choice == 4: # Basic settings
-            set_time_and_place()
-        elif choice == 5:
-            sys.exit(0)
-        else:
-            print("\n\nHow could I even get here??")
-            sys.exit(0)
-
-
-if __name__ == "__main__":
-    main()
 

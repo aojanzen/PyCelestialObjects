@@ -1,8 +1,4 @@
-# ASTRONOMY
-
-A collection of tools for hobby astronomers
-
-## PyCelestialObjects
+# PyCelestialObjects
 
 Not sure how this project will end. It is inspired by go-to telescope mounts
 and various maker projects on the internet. First goal was to calculate the
